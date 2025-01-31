@@ -13,7 +13,7 @@ type (
 	UserRepository interface {
 		Find(ctx context.Context, filter map[string]interface{}) ([]domain.User, error)
 		FindOne(ctx context.Context, filter map[string]interface{}) (*domain.User, error)
-		Upsert(ctx context.Context, user *domain.User) error
+		Update(ctx context.Context, user *domain.User) error
 		SoftDelete(ctx context.Context, user *domain.User) error
 		HardDelete(ctx context.Context, user *domain.User) error
 	}
@@ -99,13 +99,64 @@ func (u userRepository) upsertUserRecord(records [][]string, user *domain.User) 
 	return updatedRecords, updated
 }
 
-func (u userRepository) Upsert(ctx context.Context, user *domain.User) error {
+func (u userRepository) Update(ctx context.Context, user *domain.User) error {
 	records, err := u.readCSVFile()
 	if err != nil {
 		return err
 	}
 
-	updatedRecords, _ := u.upsertUserRecord(records, user)
+	var updated bool
+	var updatedRecords [][]string
+
+	updatedRecords = append(updatedRecords, records[0])
+
+	for _, record := range records[1:] {
+		existingUser, err := helper.MapRecordToUser(record)
+		if err != nil {
+			continue
+		}
+
+		if existingUser.ID == user.ID {
+			if user.Name != "" {
+				existingUser.Name = user.Name
+			}
+			if user.Currency != "" {
+				existingUser.Currency = user.Currency
+			}
+			if user.Scale != 0 {
+				existingUser.Scale = user.Scale
+			}
+			if user.Balance.String() != "" {
+				existingUser.Balance = user.Balance
+			}
+			if user.UpdatedBy != "" {
+				existingUser.UpdatedBy = user.UpdatedBy
+			}
+			existingUser.UpdatedDate = time.Now()
+			existingUser.Version++
+
+			updatedRecords = append(updatedRecords, []string{
+				existingUser.ID,
+				existingUser.Name,
+				existingUser.Currency,
+				fmt.Sprintf("%d", existingUser.Scale),
+				existingUser.Balance.String(),
+				existingUser.CreatedBy,
+				existingUser.CreatedDate.Format(time.RFC3339),
+				existingUser.UpdatedBy,
+				existingUser.UpdatedDate.Format(time.RFC3339),
+				fmt.Sprintf("%d", existingUser.Version),
+				fmt.Sprintf("%d", existingUser.IsDeleted),
+			})
+			updated = true
+		} else {
+			updatedRecords = append(updatedRecords, record)
+		}
+	}
+
+	if !updated {
+		return fmt.Errorf("user with ID %s not found", user.ID)
+	}
 
 	if err := u.writeCSVFile(updatedRecords); err != nil {
 		return err
@@ -140,6 +191,8 @@ func (u userRepository) HardDelete(ctx context.Context, user *domain.User) error
 
 	var updatedRecords [][]string
 
+	updatedRecords = append(updatedRecords, records[0])
+
 	for _, record := range records[1:] {
 		existingUser, err := helper.MapRecordToUser(record)
 		if err != nil {
@@ -153,7 +206,7 @@ func (u userRepository) HardDelete(ctx context.Context, user *domain.User) error
 		updatedRecords = append(updatedRecords, record)
 	}
 
-	if len(updatedRecords) == len(records)-1 {
+	if len(updatedRecords) == len(records) {
 		return fmt.Errorf("user with ID %s not found", user.ID)
 	}
 

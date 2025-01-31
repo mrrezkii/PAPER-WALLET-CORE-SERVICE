@@ -9,10 +9,10 @@ import (
 type (
 	UserUsecase interface {
 		Find(ctx context.Context) ([]domain.User, error)
-		FindOne(ctx context.Context) (*domain.User, error)
-		Upsert(ctx context.Context, user *domain.User) error
-		SoftDelete(ctx context.Context, user *domain.User) error
-		HardDelete(ctx context.Context, user *domain.User) error
+		FindOne(ctx context.Context, userID string) (*domain.User, error)
+		Update(ctx context.Context, user *domain.User) error
+		SoftDelete(ctx context.Context, userID string) error
+		HardDelete(ctx context.Context, userID string) error
 	}
 
 	userUsecase struct {
@@ -35,8 +35,9 @@ func (u userUsecase) Find(ctx context.Context) ([]domain.User, error) {
 	return users, nil
 }
 
-func (u userUsecase) FindOne(ctx context.Context) (*domain.User, error) {
+func (u userUsecase) FindOne(ctx context.Context, userID string) (*domain.User, error) {
 	user, err := u.repository.FindOne(ctx, map[string]interface{}{
+		"UserID":    userID,
 		"IsDeleted": 0,
 	})
 
@@ -47,24 +48,40 @@ func (u userUsecase) FindOne(ctx context.Context) (*domain.User, error) {
 	return user, nil
 }
 
-func (u userUsecase) Upsert(ctx context.Context, user *domain.User) error {
-	err := u.Upsert(ctx, user)
+func (u userUsecase) Update(ctx context.Context, user *domain.User) error {
+	err := u.repository.Update(ctx, user)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (u userUsecase) SoftDelete(ctx context.Context, user *domain.User) error {
-	err := u.SoftDelete(ctx, user)
+func (u userUsecase) SoftDelete(ctx context.Context, userID string) error {
+	user, err := u.repository.FindOne(ctx, map[string]interface{}{
+		"ID":        userID,
+		"IsDeleted": 0,
+	})
+	if err != nil {
+		return err
+	}
+
+	err = u.repository.SoftDelete(ctx, user)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (u userUsecase) HardDelete(ctx context.Context, user *domain.User) error {
-	err := u.HardDelete(ctx, user)
+func (u userUsecase) HardDelete(ctx context.Context, userID string) error {
+	user, err := u.repository.FindOne(ctx, map[string]interface{}{
+		"ID":        userID,
+		"IsDeleted": 0,
+	})
+	if err != nil {
+		return err
+	}
+
+	err = u.repository.HardDelete(ctx, user)
 	if err != nil {
 		return err
 	}

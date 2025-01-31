@@ -26,17 +26,21 @@ func (u userRepository) readCSVFile() ([][]string, error) {
 }
 
 func (u userRepository) writeCSVFile(records [][]string) error {
-	file, err := os.OpenFile(u.filePath, os.O_RDWR, 0644)
+	file, err := os.OpenFile(u.filePath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
 	if err != nil {
 		return fmt.Errorf("unable to open file: %v", err)
 	}
 	defer file.Close()
 
-	file.Seek(0, 0)
 	writer := csv.NewWriter(file)
 	err = writer.WriteAll(records)
 	if err != nil {
 		return fmt.Errorf("unable to write to CSV: %v", err)
+	}
+
+	writer.Flush()
+	if err := writer.Error(); err != nil {
+		return fmt.Errorf("error flushing CSV writer: %v", err)
 	}
 
 	return nil
@@ -61,6 +65,8 @@ func (u userRepository) softDeleteUserRecord(records [][]string, user *domain.Us
 	var updated bool
 	var updatedRecords [][]string
 
+	updatedRecords = append(updatedRecords, records[0]) // Keep header row
+
 	for _, record := range records[1:] {
 		existingUser, err := helper.MapRecordToUser(record)
 		if err != nil {
@@ -69,6 +75,10 @@ func (u userRepository) softDeleteUserRecord(records [][]string, user *domain.Us
 
 		if existingUser.ID == user.ID {
 			existingUser.IsDeleted = 1
+			existingUser.UpdatedBy = "system"
+			existingUser.UpdatedDate = time.Now()
+			existingUser.Version++
+
 			updatedRecords = append(updatedRecords, []string{
 				existingUser.ID,
 				existingUser.Name,
@@ -80,7 +90,7 @@ func (u userRepository) softDeleteUserRecord(records [][]string, user *domain.Us
 				existingUser.UpdatedBy,
 				existingUser.UpdatedDate.Format(time.RFC3339),
 				fmt.Sprintf("%d", existingUser.Version),
-				"1",
+				"1", // IsDeleted
 			})
 			updated = true
 		} else {
