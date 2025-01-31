@@ -1,0 +1,38 @@
+definitions:
+  withdraw.WithdrawRequestDto:
+    properties:
+      amount:
+        type: string
+      userId:
+        type: string
+    required:
+    - amount
+    - userId
+    type: object
+info:
+  contact: {}
+paths:
+  /paper-wallet-core-service/wallet/withdraw:
+    post:
+      consumes:
+      - application/json
+      description: Withdraw funds from the user's wallet
+      parameters:
+      - description: Withdraw Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/withdraw.WithdrawRequestDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Withdrawal Successful
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Withdraw funds from wallet
+      tags:
+      - wallet
+swagger: "2.0"

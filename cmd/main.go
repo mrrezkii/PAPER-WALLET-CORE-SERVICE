@@ -7,6 +7,7 @@ import (
 	"PAPER-WALLET-SERVICE-CORE/internal/repository"
 	"PAPER-WALLET-SERVICE-CORE/internal/usecase"
 	"github.com/labstack/echo/v4"
+	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
 func main() {
@@ -15,6 +16,8 @@ func main() {
 	userUsecase := usecase.NewUserUsecase(userRepository)
 
 	e := echo.New()
+
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	user.NewController(e, userUsecase)
 	wallet.NewController(e, userUsecase)
