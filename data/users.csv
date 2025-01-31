@@ -1,0 +1,7 @@
+_id,name,currency,scale,balance,createdBy,createdDate,updatedBy,updatedDate,version,isDeleted
+38690cf6-4efb-454b-b641-5d4b4f71f5b3,Muhammad Rezki,IDR,2,1500000.00,system,2025-02-01T10:00:00Z,muhammad.rezki.ananda@gmail.com,2025-03-01T09:40:00Z,32,0
+f0ce15f0-a9d5-4e66-83d6-4df522ce5c5b,Paper Id,USD,2,1234.56,system,2025-02-01T11:00:00Z,support@paper.id,2025-04-12T07:14:00Z,42,0
+f2e274de-d2df-46fc-aaf6-070b09a18366,Adelia Samosir,JPY,3,876.543,system,2025-02-01T12:00:00Z,adelia.samosir@paper.id,2025-04-13T00:11:00Z,44,0
+222d7f08-039a-4d40-b40c-11db36c0acae,Asus,IDR,2,0,system,2025-02-01T10:00:00Z,prod.automation@paper.id,2025-03-01T09:40:00Z,2,1
+03a23a10-88e0-4462-b071-81f4363f7854,Apple,USD,2,0,system,2025-02-01T11:00:00Z,prod.automation@paper.id,2025-04-12T07:14:00Z,4,1
+fbebfb89-8273-49a0-a142-b2daafea1fed,Samsung,JPY,3,0,system,2025-02-01T12:00:00Z,prod.automation@paper.id,2025-04-13T00:11:00Z,1,1

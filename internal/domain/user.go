@@ -1,11 +1,15 @@
 package domain
 
-import "PAPER-WALLET-SERVICE-CORE/internal/dto"
+import (
+	"PAPER-WALLET-SERVICE-CORE/internal/dto"
+	"github.com/shopspring/decimal"
+)
 
 type User struct {
-	ID      string  `json:"id"`
-	Name    string  `json:"name"`
-	Balance float64 `json:"balance"`
+	Name     string          `json:"name"`
+	Currency string          `json:"currency"`
+	Scale    uint32          `json:"scale"`
+	Balance  decimal.Decimal `json:"balance"`
 
 	dto.BaseTableFields `json:"-,inline"`
 }
