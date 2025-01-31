@@ -5,9 +5,7 @@ import (
 	"PAPER-WALLET-SERVICE-CORE/helper"
 	"PAPER-WALLET-SERVICE-CORE/internal/domain"
 	"context"
-	"encoding/csv"
 	"fmt"
-	"os"
 	"time"
 )
 
@@ -30,74 +28,29 @@ func UserRepositoryNew(config *config.Config) UserRepository {
 }
 
 func (u userRepository) Find(ctx context.Context, filter map[string]interface{}) ([]domain.User, error) {
-	file, err := os.Open(u.filePath)
+	records, err := u.readCSVFile()
 	if err != nil {
-		return nil, fmt.Errorf("unable to open file: %v", err)
-	}
-	defer file.Close()
-
-	reader := csv.NewReader(file)
-	records, err := reader.ReadAll()
-	if err != nil {
-		return nil, fmt.Errorf("unable to read CSV: %v", err)
+		return nil, err
 	}
 
-	var users []domain.User
-
-	for _, record := range records[1:] {
-		user, err := helper.MapRecordToUser(record)
-		if err != nil {
-			continue
-		}
-
-		if helper.MatchFilter(user, filter) {
-			users = append(users, user)
-		}
-	}
-
-	return users, nil
+	return u.findUsersByFilter(records, filter)
 }
 
 func (u userRepository) FindOne(ctx context.Context, filter map[string]interface{}) (*domain.User, error) {
-	file, err := os.Open(u.filePath)
+	records, err := u.readCSVFile()
 	if err != nil {
-		return nil, fmt.Errorf("unable to open file: %v", err)
-	}
-	defer file.Close()
-
-	reader := csv.NewReader(file)
-	records, err := reader.ReadAll()
-	if err != nil {
-		return nil, fmt.Errorf("unable to read CSV: %v", err)
+		return nil, err
 	}
 
-	for _, record := range records[1:] {
-		user, err := helper.MapRecordToUser(record)
-		if err != nil {
-			continue
-		}
-
-		if helper.MatchFilter(user, filter) {
-			return &user, nil
-		}
+	users, err := u.findUsersByFilter(records, filter)
+	if err != nil || len(users) == 0 {
+		return nil, nil
 	}
 
-	return nil, nil
+	return &users[0], nil
 }
 
-func (u userRepository) Upsert(ctx context.Context, user *domain.User) error {
-	file, err := os.OpenFile(u.filePath, os.O_RDWR, 0644)
-	if err != nil {
-		return fmt.Errorf("unable to open file: %v", err)
-	}
-	defer file.Close()
-
-	reader := csv.NewReader(file)
-	records, err := reader.ReadAll()
-	if err != nil {
-		return fmt.Errorf("unable to read CSV: %v", err)
-	}
-
+func (u userRepository) upsertUserRecord(records [][]string, user *domain.User) ([][]string, bool) {
 	var updated bool
 	var updatedRecords [][]string
 
@@ -143,90 +96,51 @@ func (u userRepository) Upsert(ctx context.Context, user *domain.User) error {
 		})
 	}
 
-	file.Seek(0, 0)
-	writer := csv.NewWriter(file)
-	err = writer.WriteAll(updatedRecords)
+	return updatedRecords, updated
+}
+
+func (u userRepository) Upsert(ctx context.Context, user *domain.User) error {
+	records, err := u.readCSVFile()
 	if err != nil {
-		return fmt.Errorf("unable to write to CSV: %v", err)
+		return err
+	}
+
+	updatedRecords, _ := u.upsertUserRecord(records, user)
+
+	if err := u.writeCSVFile(updatedRecords); err != nil {
+		return err
 	}
 
 	return nil
 }
 
 func (u userRepository) SoftDelete(ctx context.Context, user *domain.User) error {
-	file, err := os.OpenFile(u.filePath, os.O_RDWR, 0644)
+	records, err := u.readCSVFile()
 	if err != nil {
-		return fmt.Errorf("unable to open file: %v", err)
+		return err
 	}
-	defer file.Close()
 
-	reader := csv.NewReader(file)
-	records, err := reader.ReadAll()
+	updatedRecords, err := u.softDeleteUserRecord(records, user)
 	if err != nil {
-		return fmt.Errorf("unable to read CSV: %v", err)
+		return err
 	}
 
-	var updated bool
-	var updatedRecords [][]string
-
-	for _, record := range records[1:] {
-		existingUser, err := helper.MapRecordToUser(record)
-		if err != nil {
-			continue
-		}
-
-		if existingUser.ID == user.ID {
-			existingUser.IsDeleted = 1
-			updatedRecords = append(updatedRecords, []string{
-				existingUser.ID,
-				existingUser.Name,
-				existingUser.Currency,
-				fmt.Sprintf("%d", existingUser.Scale),
-				existingUser.Balance.String(),
-				existingUser.CreatedBy,
-				existingUser.CreatedDate.Format(time.RFC3339),
-				existingUser.UpdatedBy,
-				existingUser.UpdatedDate.Format(time.RFC3339),
-				fmt.Sprintf("%d", existingUser.Version),
-				"1",
-			})
-			updated = true
-		} else {
-			updatedRecords = append(updatedRecords, record)
-		}
-	}
-
-	if !updated {
-		return fmt.Errorf("user with ID %s not found", user.ID)
-	}
-
-	file.Seek(0, 0)
-	writer := csv.NewWriter(file)
-	err = writer.WriteAll(updatedRecords)
-	if err != nil {
-		return fmt.Errorf("unable to write to CSV: %v", err)
+	if err := u.writeCSVFile(updatedRecords); err != nil {
+		return err
 	}
 
 	return nil
 }
 
 func (u userRepository) HardDelete(ctx context.Context, user *domain.User) error {
-	file, err := os.OpenFile(u.filePath, os.O_RDWR, 0644)
+	records, err := u.readCSVFile()
 	if err != nil {
-		return fmt.Errorf("unable to open file: %v", err)
-	}
-	defer file.Close()
-
-	reader := csv.NewReader(file)
-	records, err := reader.ReadAll()
-	if err != nil {
-		return fmt.Errorf("unable to read CSV: %v", err)
+		return err
 	}
 
 	var updatedRecords [][]string
 
 	for _, record := range records[1:] {
-
 		existingUser, err := helper.MapRecordToUser(record)
 		if err != nil {
 			continue
@@ -243,11 +157,8 @@ func (u userRepository) HardDelete(ctx context.Context, user *domain.User) error
 		return fmt.Errorf("user with ID %s not found", user.ID)
 	}
 
-	file.Seek(0, 0)
-	writer := csv.NewWriter(file)
-	err = writer.WriteAll(updatedRecords)
-	if err != nil {
-		return fmt.Errorf("unable to write to CSV: %v", err)
+	if err := u.writeCSVFile(updatedRecords); err != nil {
+		return err
 	}
 
 	return nil
