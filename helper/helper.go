@@ -2,7 +2,6 @@ package helper
 
 import (
 	"PAPER-WALLET-SERVICE-CORE/internal/domain"
-	"PAPER-WALLET-SERVICE-CORE/internal/dto"
 	"fmt"
 	"github.com/shopspring/decimal"
 	"reflect"
@@ -36,7 +35,7 @@ func MapRecordToUser(record []string) (domain.User, error) {
 		return domain.User{}, fmt.Errorf("invalid createdDate: %v", err)
 	}
 
-	updatedDate, err := time.Parse(time.RFC3339, record[7])
+	updatedDate, err := time.Parse(time.RFC3339, record[8])
 	if err != nil {
 		return domain.User{}, fmt.Errorf("invalid updatedDate: %v", err)
 	}
@@ -62,28 +61,27 @@ func MapRecordToUser(record []string) (domain.User, error) {
 	}
 
 	return domain.User{
-		Name:     record[1],
-		Currency: record[2],
-		Scale:    scale,
-		Balance:  balance,
-		BaseTableFields: dto.BaseTableFields{
-			ID:          record[0],
-			CreatedDate: createdDate,
-			CreatedBy:   record[5],
-			UpdatedDate: updatedDate,
-			UpdatedBy:   record[8],
-			Version:     version,
-			IsDeleted:   isDeleted,
-		},
+		ID:          record[0],
+		Name:        record[1],
+		Currency:    record[2],
+		Scale:       scale,
+		Balance:     balance,
+		CreatedDate: createdDate,
+		CreatedBy:   record[5],
+		UpdatedDate: updatedDate,
+		UpdatedBy:   record[7],
+		Version:     version,
+		IsDeleted:   isDeleted,
 	}, nil
 }
 
 func uint32FromString(s string) (uint32, error) {
-	val, err := fmt.Sscanf(s, "%d", new(uint32))
+	var val uint32
+	_, err := fmt.Sscanf(s, "%d", &val)
 	if err != nil {
 		return 0, err
 	}
-	return uint32(val), nil
+	return val, nil
 }
 
 func intFromString(s string) (int, error) {

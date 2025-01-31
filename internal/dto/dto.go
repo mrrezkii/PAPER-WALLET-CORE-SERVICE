@@ -1,7 +1,5 @@
 package dto
 
-import "time"
-
 type (
 	MandatoryRequest struct {
 		ChannelID     string `json:"channelId" validate:"required"`
@@ -20,15 +18,5 @@ type (
 		Data        interface{} `json:"data"`
 		Errors      []string    `json:"errors"`
 		ServiceTime int64       `json:"serviceTime"`
-	}
-
-	BaseTableFields struct {
-		ID          string    `json:"_id"`
-		CreatedDate time.Time `json:"createdDate"`
-		CreatedBy   string    `json:"createdBy"`
-		UpdatedDate time.Time `json:"updatedDate"`
-		UpdatedBy   string    `json:"updatedBy"`
-		Version     int       `json:"version"`
-		IsDeleted   int       `json:"isDeleted"`
 	}
 )

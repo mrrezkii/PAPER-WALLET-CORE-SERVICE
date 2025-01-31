@@ -26,7 +26,7 @@ func NewUserUsecase(repository repository.UserRepository) UserUsecase {
 
 func (u userUsecase) Find(ctx context.Context) ([]domain.User, error) {
 	users, err := u.repository.Find(ctx, map[string]interface{}{
-		"isDeleted": 0,
+		"IsDeleted": 0,
 	})
 	if err != nil {
 		return nil, err
@@ -37,7 +37,7 @@ func (u userUsecase) Find(ctx context.Context) ([]domain.User, error) {
 
 func (u userUsecase) FindOne(ctx context.Context) (*domain.User, error) {
 	user, err := u.repository.FindOne(ctx, map[string]interface{}{
-		"isDeleted": 0,
+		"IsDeleted": 0,
 	})
 
 	if err != nil {
