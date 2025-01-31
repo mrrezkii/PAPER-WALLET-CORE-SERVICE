@@ -23,7 +23,7 @@ type (
 	}
 )
 
-func UserRepositoryNew(config *config.Config) UserRepository {
+func NewUserRepository(config *config.Config) UserRepository {
 	return &userRepository{filePath: config.CSVFilePath}
 }
 
