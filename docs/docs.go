@@ -60,7 +60,7 @@ const docTemplate = `{
             ],
             "properties": {
                 "amount": {
-                    "type": "string"
+                    "type": "number"
                 },
                 "userId": {
                     "type": "string"

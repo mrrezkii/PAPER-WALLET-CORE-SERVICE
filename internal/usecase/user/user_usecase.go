@@ -1,4 +1,4 @@
-package usecase
+package user
 
 import (
 	"PAPER-WALLET-SERVICE-CORE/internal/domain"

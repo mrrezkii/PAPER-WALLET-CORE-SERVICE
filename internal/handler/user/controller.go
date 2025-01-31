@@ -1,15 +1,15 @@
 package user
 
 import (
-	"PAPER-WALLET-SERVICE-CORE/internal/usecase"
+	"PAPER-WALLET-SERVICE-CORE/internal/usecase/user"
 	"github.com/labstack/echo/v4"
 )
 
 type UserController struct {
-	userUsecase usecase.UserUsecase
+	userUsecase user.UserUsecase
 }
 
-func NewController(e *echo.Echo, userUsecase usecase.UserUsecase) {
+func NewController(e *echo.Echo, userUsecase user.UserUsecase) {
 	controller := &UserController{userUsecase}
 
 	e.GET("/paper-wallet-core-service/users", controller.GetAllUsers)

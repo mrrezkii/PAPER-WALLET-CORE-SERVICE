@@ -2,7 +2,7 @@ definitions:
   withdraw.WithdrawRequestDto:
     properties:
       amount:
-        type: string
+        type: number
       userId:
         type: string
     required:

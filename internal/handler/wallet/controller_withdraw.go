@@ -17,6 +17,7 @@ import (
 // @Router /paper-wallet-core-service/wallet/withdraw [post]
 func (u *WalletController) Withdraw(c echo.Context) error {
 	var (
+		ctx = c.Request().Context()
 		req withdraw.WithdrawRequestDto
 	)
 
@@ -24,10 +25,11 @@ func (u *WalletController) Withdraw(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, map[string]interface{}{
-		"message": "Withdrawal successful",
-		"userId":  req.UserID,
-		"amount":  req.Amount,
-	})
+	responseDto, err := u.walletUsecase.Withdraw(ctx, req)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, responseDto)
 
 }

@@ -6,7 +6,8 @@ import (
 	"PAPER-WALLET-SERVICE-CORE/internal/handler/user"
 	"PAPER-WALLET-SERVICE-CORE/internal/handler/wallet"
 	"PAPER-WALLET-SERVICE-CORE/internal/repository"
-	"PAPER-WALLET-SERVICE-CORE/internal/usecase"
+	user2 "PAPER-WALLET-SERVICE-CORE/internal/usecase/user"
+	wallet2 "PAPER-WALLET-SERVICE-CORE/internal/usecase/wallet"
 	"github.com/labstack/echo/v4"
 	echoSwagger "github.com/swaggo/echo-swagger"
 )
@@ -14,14 +15,16 @@ import (
 func main() {
 	config := config.NewConfig()
 	userRepository := repository.NewUserRepository(config)
-	userUsecase := usecase.NewUserUsecase(userRepository)
+
+	userUsecase := user2.NewUserUsecase(userRepository)
+	walletUsecase := wallet2.NewWalletUsecase(userRepository)
 
 	e := echo.New()
 
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	user.NewController(e, userUsecase)
-	wallet.NewController(e, userUsecase)
+	wallet.NewController(e, walletUsecase)
 
 	e.Logger.Fatal(e.Start(":" + config.ServerPort))
 
