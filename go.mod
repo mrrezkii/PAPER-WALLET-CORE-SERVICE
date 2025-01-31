@@ -1,0 +1,3 @@
+module PAPER-WALLET-SERVICE-CORE
+
+go 1.23
