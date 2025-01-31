@@ -25,7 +25,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "wallet"
+                    "wallet-controller"
                 ],
                 "summary": "Withdraw funds from wallet",
                 "parameters": [

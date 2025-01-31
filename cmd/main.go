@@ -2,6 +2,7 @@ package main
 
 import (
 	"PAPER-WALLET-SERVICE-CORE/config"
+	_ "PAPER-WALLET-SERVICE-CORE/docs"
 	"PAPER-WALLET-SERVICE-CORE/internal/handler/user"
 	"PAPER-WALLET-SERVICE-CORE/internal/handler/wallet"
 	"PAPER-WALLET-SERVICE-CORE/internal/repository"

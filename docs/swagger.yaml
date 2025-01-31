@@ -34,5 +34,5 @@ paths:
             type: object
       summary: Withdraw funds from wallet
       tags:
-      - wallet
+      - wallet-controller
 swagger: "2.0"

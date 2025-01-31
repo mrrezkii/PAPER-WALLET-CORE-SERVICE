@@ -12,5 +12,5 @@ type WalletController struct {
 func NewController(e *echo.Echo, userUsecase usecase.UserUsecase) {
 	controller := &WalletController{userUsecase}
 
-	e.POST("/paper-wallet-core-service/wallet/withdraw", controller.WithDraw)
+	e.POST("/paper-wallet-core-service/wallet/withdraw", controller.Withdraw)
 }
