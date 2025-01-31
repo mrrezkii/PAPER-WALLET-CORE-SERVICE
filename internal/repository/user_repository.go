@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"PAPER-WALLET-SERVICE-CORE/config"
 	"PAPER-WALLET-SERVICE-CORE/internal/domain"
 	"context"
 )
@@ -18,8 +19,8 @@ type (
 	}
 )
 
-func UserRepositoryNew(filePath string) UserRepository {
-	return &userRepository{filePath}
+func UserRepositoryNew(config *config.Config) UserRepository {
+	return &userRepository{filePath: config.CSVFilePath}
 }
 
 func (u userRepository) Find(ctx context.Context, filter interface{}) ([]domain.User, error) {
