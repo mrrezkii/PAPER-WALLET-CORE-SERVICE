@@ -3,8 +3,8 @@ package wallet
 import (
 	"PAPER-WALLET-SERVICE-CORE/internal/handler"
 	"PAPER-WALLET-SERVICE-CORE/shared/dto/withdraw"
+	"PAPER-WALLET-SERVICE-CORE/shared/response"
 	"github.com/labstack/echo/v4"
-	"net/http"
 )
 
 // Withdraw godoc
@@ -32,18 +32,18 @@ func (u *WalletController) Withdraw(c echo.Context) error {
 
 	req.MandatoryRequest = handler.MandatoryRequest(ctx)
 	if err := c.Bind(&req); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		return handler.Response(c, nil, response.NewResponseStandard(response.BAD_REQUEST, err))
 	}
 
 	if err := c.Validate(req); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		return handler.Response(c, nil, response.NewResponseStandard(response.BAD_REQUEST, err))
 	}
 
 	responseDto, err := u.walletUsecase.Withdraw(ctx, req)
 	if err != nil {
-		return err
+		return handler.Response(c, nil, response.NewResponseStandard(response.SYSTEM_ERROR, err))
 	}
 
-	return c.JSON(http.StatusOK, responseDto)
+	return handler.Response(c, responseDto, nil)
 
 }

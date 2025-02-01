@@ -3,8 +3,8 @@ package user
 import (
 	"PAPER-WALLET-SERVICE-CORE/internal/handler"
 	"PAPER-WALLET-SERVICE-CORE/shared/dto/user"
+	"PAPER-WALLET-SERVICE-CORE/shared/response"
 	"github.com/labstack/echo/v4"
-	"net/http"
 )
 
 // DeleteUser godoc
@@ -32,11 +32,11 @@ func (u *UserController) DeleteUser(c echo.Context) error {
 
 	req.MandatoryRequest = handler.MandatoryRequest(ctx)
 	if err := c.Bind(&req); err != nil {
-		return c.JSON(http.StatusBadRequest, err)
+		return handler.Response(c, nil, response.NewResponseStandard(response.BAD_REQUEST, err))
 	}
 
 	if err := c.Validate(req); err != nil {
-		return c.JSON(http.StatusBadRequest, err)
+		return handler.Response(c, nil, response.NewResponseStandard(response.BAD_REQUEST, err))
 	}
 
 	var err error
@@ -47,9 +47,9 @@ func (u *UserController) DeleteUser(c echo.Context) error {
 	}
 
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err)
+		return handler.Response(c, nil, response.NewResponseStandard(response.SYSTEM_ERROR, err))
 	}
 
-	return c.JSON(http.StatusNoContent, nil)
+	return handler.Response(c, nil, nil)
 
 }

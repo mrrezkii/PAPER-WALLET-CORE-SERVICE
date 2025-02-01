@@ -13,10 +13,10 @@ type (
 	}
 
 	BaseResponse struct {
-		Code        string      `json:"code"`
-		Message     string      `json:"message"`
-		Data        interface{} `json:"data"`
-		Errors      []string    `json:"errors"`
-		ServiceTime int64       `json:"serviceTime"`
+		Code       string      `json:"code"`
+		Message    string      `json:"message"`
+		Data       interface{} `json:"data"`
+		Errors     []string    `json:"errors"`
+		ServerTime int64       `json:"serviceTime"`
 	}
 )

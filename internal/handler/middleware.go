@@ -3,6 +3,7 @@ package handler
 import (
 	"PAPER-WALLET-SERVICE-CORE/shared"
 	"PAPER-WALLET-SERVICE-CORE/shared/dto"
+	"PAPER-WALLET-SERVICE-CORE/shared/response"
 	"context"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
@@ -14,7 +15,7 @@ func RegisterMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		mandatoryRequest := shared.GetMandatoryRequest(c)
 		err := c.Validate(&mandatoryRequest)
 		if err != nil && isApplySetMandatoryRequest(c.Request().RequestURI) {
-			return err
+			return Response(c, nil, response.NewResponseStandard(response.BAD_REQUEST, err))
 		}
 
 		if mandatoryRequest.RequestID == "" || mandatoryRequest.RequestID == "RequestId" {

@@ -1,8 +1,8 @@
 package user
 
 import (
+	"PAPER-WALLET-SERVICE-CORE/internal/handler"
 	"github.com/labstack/echo/v4"
-	"net/http"
 )
 
 // GetUser godoc
@@ -35,5 +35,5 @@ func (u *UserController) GetUser(c echo.Context) error {
 		return err
 	}
 
-	return c.JSON(http.StatusOK, user)
+	return handler.Response(c, user, nil)
 }

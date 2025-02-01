@@ -3,8 +3,8 @@ package user
 import (
 	"PAPER-WALLET-SERVICE-CORE/internal/handler"
 	"PAPER-WALLET-SERVICE-CORE/shared/dto/user"
+	"PAPER-WALLET-SERVICE-CORE/shared/response"
 	"github.com/labstack/echo/v4"
-	"net/http"
 )
 
 // UpdateUser godoc
@@ -32,19 +32,19 @@ func (u *UserController) UpdateUser(c echo.Context) error {
 
 	req.MandatoryRequest = handler.MandatoryRequest(ctx)
 	if err := c.Bind(&req); err != nil {
-		return c.JSON(http.StatusBadRequest, err)
+		return handler.Response(c, nil, response.NewResponseStandard(response.BAD_REQUEST, err))
 	}
 
 	if err := c.Validate(req); err != nil {
-		return c.JSON(http.StatusBadRequest, err)
+		return handler.Response(c, nil, response.NewResponseStandard(response.BAD_REQUEST, err))
 	}
 
 	toUser := userDtoToUser(req.User)
 	err := u.userUsecase.Update(ctx, &toUser)
 	if err != nil {
-		return err
+		return handler.Response(c, nil, response.NewResponseStandard(response.SYSTEM_ERROR, err))
 	}
 
-	return c.JSON(http.StatusCreated, req.User)
+	return handler.Response(c, nil, nil)
 
 }

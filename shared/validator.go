@@ -13,7 +13,7 @@ type (
 )
 
 func NewValidator() *Validate {
-	v := v10.New(v10.WithRequiredStructEnabled()) // Tambahkan opsi yang diinginkan
+	v := v10.New(v10.WithRequiredStructEnabled())
 	return &Validate{instance: v}
 }
 
