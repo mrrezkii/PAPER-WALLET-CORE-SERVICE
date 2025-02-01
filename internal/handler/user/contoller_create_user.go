@@ -14,7 +14,7 @@ import (
 // @Produce application/json
 // @Param user body user.CreateUserRequestDto true "User Data"
 // @Success 201 {object} user.CreateUserResponseDto
-// @Router /users [post]
+// @Router /paper-wallet-core-service/users [post]
 func (u *UserController) CreateUser(c echo.Context) error {
 	var (
 		ctx = c.Request().Context()

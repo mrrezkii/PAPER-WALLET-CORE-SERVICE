@@ -15,42 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/paper-wallet-core-service/wallet/withdraw": {
-            "post": {
-                "description": "Withdraw funds from the user's wallet",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "wallet-controller"
-                ],
-                "summary": "Withdraw funds from wallet",
-                "parameters": [
-                    {
-                        "description": "Withdraw Request",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/withdraw.WithdrawRequestDto"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Withdrawal Successful",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
-                }
-            }
-        },
-        "/users": {
+        "/paper-wallet-core-service/users": {
             "get": {
                 "description": "Retrieve a list of all users",
                 "consumes": [
@@ -140,7 +105,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/users/{id}": {
+        "/paper-wallet-core-service/users/{id}": {
             "get": {
                 "description": "Get details of a user by their ID",
                 "consumes": [
@@ -167,6 +132,41 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/domain.User"
+                        }
+                    }
+                }
+            }
+        },
+        "/paper-wallet-core-service/wallet/withdraw": {
+            "post": {
+                "description": "Withdraw funds from the user's wallet",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "wallet-controller"
+                ],
+                "summary": "Withdraw funds from wallet",
+                "parameters": [
+                    {
+                        "description": "Withdraw Request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/withdraw.WithdrawRequestDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Withdrawal Successful",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     }
                 }

@@ -12,7 +12,7 @@ import (
 // @Accept json
 // @Produce application/json
 // @Success 200 {array} domain.User
-// @Router /users [get]
+// @Router /paper-wallet-core-service/users [get]
 func (u *UserController) GetAllUsers(c echo.Context) error {
 	var ctx = c.Request().Context()
 

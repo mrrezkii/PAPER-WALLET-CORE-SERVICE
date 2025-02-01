@@ -14,7 +14,7 @@ import (
 // @Produce application/json
 // @Param user body user.UpdateUserRequestDto true "User Data for Update"
 // @Success 200 {object} domain.User
-// @Router /users [put]
+// @Router /paper-wallet-core-service/users [put]
 func (u *UserController) UpdateUser(c echo.Context) error {
 	var (
 		ctx = c.Request().Context()
