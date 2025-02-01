@@ -8,10 +8,10 @@ import (
 type User struct {
 	ID string `json:"id"`
 
-	Name     string          `json:"name"`
-	Currency string          `json:"currency"`
-	Scale    uint32          `json:"scale"`
-	Balance  decimal.Decimal `json:"balance"`
+	Name     string          `json:"name" validate:"required"`
+	Currency string          `json:"currency" validate:"required"`
+	Scale    uint32          `json:"scale" validate:"required"`
+	Balance  decimal.Decimal `json:"balance" validate:"required"`
 
 	CreatedDate time.Time `json:"createdDate"`
 	CreatedBy   string    `json:"createdBy"`

@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-// All godoc
+// Withdraw godoc
 // @Summary Withdraw funds from wallet
 // @Description Withdraw funds from the user's wallet
 // @Tags wallet-controller

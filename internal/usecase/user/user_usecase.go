@@ -10,6 +10,7 @@ type (
 	UserUsecase interface {
 		Find(ctx context.Context) ([]domain.User, error)
 		FindOne(ctx context.Context, userID string) (*domain.User, error)
+		Create(ctx context.Context, user *domain.User) error
 		Update(ctx context.Context, user *domain.User) error
 		SoftDelete(ctx context.Context, userID string) error
 		HardDelete(ctx context.Context, userID string) error
@@ -46,6 +47,14 @@ func (u userUsecase) FindOne(ctx context.Context, userID string) (*domain.User, 
 	}
 
 	return user, nil
+}
+
+func (u userUsecase) Create(ctx context.Context, user *domain.User) error {
+	err := u.repository.Create(ctx, user)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (u userUsecase) Update(ctx context.Context, user *domain.User) error {

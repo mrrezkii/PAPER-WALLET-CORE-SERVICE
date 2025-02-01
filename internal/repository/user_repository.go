@@ -13,6 +13,7 @@ type (
 	UserRepository interface {
 		Find(ctx context.Context, filter map[string]interface{}) ([]domain.User, error)
 		FindOne(ctx context.Context, filter map[string]interface{}) (*domain.User, error)
+		Create(ctx context.Context, user *domain.User) error
 		Update(ctx context.Context, user *domain.User) error
 		SoftDelete(ctx context.Context, user *domain.User) error
 		HardDelete(ctx context.Context, user *domain.User) error
@@ -50,9 +51,14 @@ func (u userRepository) FindOne(ctx context.Context, filter map[string]interface
 	return &users[0], nil
 }
 
-func (u userRepository) upsertUserRecord(records [][]string, user *domain.User) ([][]string, bool) {
-	var updated bool
-	var updatedRecords [][]string
+func (u userRepository) Create(ctx context.Context, user *domain.User) error {
+	records, err := u.readCSVFile()
+	if err != nil {
+		return err
+	}
+
+	var exist bool
+	var newRecords [][]string
 
 	for _, record := range records[1:] {
 		existingUser, err := helper.MapRecordToUser(record)
@@ -61,42 +67,34 @@ func (u userRepository) upsertUserRecord(records [][]string, user *domain.User) 
 		}
 
 		if existingUser.ID == user.ID {
-			updatedRecords = append(updatedRecords, []string{
-				user.ID,
-				user.Name,
-				user.Currency,
-				fmt.Sprintf("%d", user.Scale),
-				user.Balance.String(),
-				user.CreatedBy,
-				user.CreatedDate.Format(time.RFC3339),
-				user.UpdatedBy,
-				user.UpdatedDate.Format(time.RFC3339),
-				fmt.Sprintf("%d", user.Version),
-				fmt.Sprintf("%d", user.IsDeleted),
-			})
-			updated = true
-		} else {
-			updatedRecords = append(updatedRecords, record)
+			exist = true
 		}
 	}
 
-	if !updated {
-		updatedRecords = append(updatedRecords, []string{
-			user.ID,
-			user.Name,
-			user.Currency,
-			fmt.Sprintf("%d", user.Scale),
-			user.Balance.String(),
-			user.CreatedBy,
-			user.CreatedDate.Format(time.RFC3339),
-			user.UpdatedBy,
-			user.UpdatedDate.Format(time.RFC3339),
-			fmt.Sprintf("%d", user.Version),
-			fmt.Sprintf("%d", user.IsDeleted),
-		})
+	if exist {
+		return fmt.Errorf("user with ID %s already exists", user.ID)
 	}
 
-	return updatedRecords, updated
+	newRecords = append(newRecords, []string{
+		user.ID,
+		user.Name,
+		user.Currency,
+		fmt.Sprintf("%d", user.Scale),
+		user.Balance.String(),
+		"system",
+		time.Now().UTC().Format("2006-01-02 15:04:05"),
+		"system",
+		time.Now().UTC().Format("2006-01-02 15:04:05"),
+		fmt.Sprintf("%d", 1),
+		fmt.Sprintf("%d", 0),
+	})
+
+	err = u.writeCSVFile(newRecords)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (u userRepository) Update(ctx context.Context, user *domain.User) error {
