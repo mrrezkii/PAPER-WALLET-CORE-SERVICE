@@ -45,7 +45,12 @@ The service processes balance data sourced from CSV files. Here's a sample of th
    make deps
    ```
 
-3. Run the service:
+3. Update swagger documentation
+   ```bash
+   make swag-init
+   ```
+
+4. Run the service:
    ```bash
    make run
    ```

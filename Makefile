@@ -37,3 +37,8 @@ test:
 .PHONY: clean
 clean:
 	rm -rf $(BUILD_DIR)
+
+# Update swagger documentation
+.PHONY: swag-init
+swag-init:
+	swag init -g cmd/main.go
