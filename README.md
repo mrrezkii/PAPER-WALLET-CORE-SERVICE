@@ -1,4 +1,4 @@
-# Wallet Balance Disbursement Service
+# Paper Waller Core Service
 
 A microservice that facilitates the disbursement of user balances from an application wallet. Built with Go 1.23, Echo framework, and fully documented using Swagger.
 
@@ -59,7 +59,94 @@ The service processes balance data sourced from CSV files. Here's a sample of th
 
 Access the API documentation at:
 ```
-http://localhost:8080/swagger/index.html
+{host}/swagger/index.html
+```
+
+### Disburse Balance Endpoint
+
+**POST** `{host}/paper-wallet-core-service/wallet/withdraw`
+
+#### Example cURL Request
+```
+curl -X 'POST' \
+  'http://localhost:8080/paper-wallet-core-service/wallet/withdraw' \
+  -H 'accept: application/json' \
+  -H 'X-Channel-Id: iOS' \
+  -H 'X-Request-Id: cb41cafb-8b35-439a-aa05-30e022a4f323' \
+  -H 'X-Service-Id: gateway' \
+  -H 'X-Username: muhammad.rezki.ananda@gmail.com' \
+  -H 'Accept-Language: en' \
+  -H 'User-Agent: User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_2 like Mac OS X' \
+  -H 'Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=' \
+  -H 'X-App-Version: 1.2.3-4' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "amount": 1,
+  "userId": "38690cf6-4efb-454b-b641-5d4b4f71f5b3"
+}'
+```
+#### Request Headers
+
+- **accept:** application/json
+- **X-Channel-Id:** Channel identifier
+- **X-Request-Id:** Unique request identifier
+- **X-Service-Id:** Service identifier (e.g., gateway)
+- **X-Username:** User identifier (e.g., muhammad.rezki,ananda@gmail.com)
+- **Accept-Language:** Preferred language (e.g., id & en)
+- **User-Agent:** Client information
+- **Authorization:** Authentication
+- **X-App-Version:** Application information
+- **Content-Type:** application/json
+
+#### Request Body
+
+```json
+{
+  "amount": "number", 
+  "userId": "string"
+}
+```
+
+#### Response
+
+English Language (default)
+```json
+{
+   "code": "SUCCESS",
+   "message": "SUCCESS",
+   "data": {
+      "message": "Success! You have successfully requested to disburse `IDR 1`. Your previous balance was `IDR 1,499,999`, and after the disbursement, your new balance is `IDR 1,499,998`",
+      "detail": {
+         "id": "38690cf6-4efb-454b-b641-5d4b4f71f5b3",
+         "name": "Muhammad Rezki",
+         "currency": "IDR",
+         "scale": 2,
+         "balance": "1499998"
+      }
+   },
+   "errors": null,
+   "serviceTime": 1738446802
+}
+```
+
+Bahasa Indonesia
+```json
+{
+   "code": "SUCCESS",
+   "message": "SUCCESS",
+   "data": {
+      "message": "Sukses! Anda berhasil meminta untuk mencairkan `IDR 1`. Saldo Anda sebelumnya adalah `IDR 1,500,000`, dan setelah pencairan, saldo baru Anda menjadi `IDR 1,499,999`",
+      "detail": {
+         "id": "38690cf6-4efb-454b-b641-5d4b4f71f5b3",
+         "name": "Muhammad Rezki",
+         "currency": "IDR",
+         "scale": 2,
+         "balance": "1499999"
+      }
+   },
+   "errors": null,
+   "serviceTime": 1738446784
+}
 ```
 
 ## 📂 Project Structure
