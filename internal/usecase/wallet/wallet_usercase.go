@@ -39,10 +39,11 @@ func (u userUsecase) Withdraw(ctx context.Context, request withdraw.WithdrawRequ
 		return withdraw.WithdrawResponseDto{}, errors.New("insufficient balance")
 	}
 
-	previousBalance := user.Balance
-	currentBalance := user.Balance.Sub(request.Amount)
+	message := generateWording(request.MandatoryRequest.Language,
+		request.Amount,
+		user.Balance)
 
-	user.Balance = currentBalance
+	user.Balance = user.Balance.Sub(request.Amount)
 	err = u.repository.Update(ctx, user)
 	if err != nil {
 		return withdraw.WithdrawResponseDto{}, err
@@ -50,9 +51,8 @@ func (u userUsecase) Withdraw(ctx context.Context, request withdraw.WithdrawRequ
 
 	return withdraw.WithdrawResponseDto{
 		MandatoryRequest: dto.MandatoryRequest{},
-		UserID:           user.ID,
-		PreviousBalance:  previousBalance,
-		CurrentBalance:   currentBalance,
+		Message:          message,
+		Detail:           userToUserDto(user),
 	}, nil
 
 }

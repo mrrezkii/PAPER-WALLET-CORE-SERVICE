@@ -2,6 +2,7 @@ package withdraw
 
 import (
 	"PAPER-WALLET-SERVICE-CORE/shared/dto"
+	user2 "PAPER-WALLET-SERVICE-CORE/shared/dto/user"
 	"github.com/shopspring/decimal"
 )
 
@@ -14,8 +15,7 @@ type (
 
 	WithdrawResponseDto struct {
 		MandatoryRequest dto.MandatoryRequest `json:"-"`
-		UserID           string               `json:"userId"`
-		PreviousBalance  decimal.Decimal      `json:"previousBalance"`
-		CurrentBalance   decimal.Decimal      `json:"currentBalance"`
+		Message          string               `json:"message"`
+		Detail           user2.UserDto        `json:"detail"`
 	}
 )
