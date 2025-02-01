@@ -1,4 +1,4 @@
-# Paper Waller Core Service
+# 💵💰💳 Paper Wallet Core Service 💻⚙️
 
 A microservice that facilitates the disbursement of user balances from an application wallet. Built with Go 1.23, Echo framework, and fully documented using Swagger.
 
