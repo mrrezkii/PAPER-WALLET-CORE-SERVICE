@@ -41,7 +41,7 @@ func (u userUsecase) Withdraw(ctx context.Context, request withdraw.WithdrawRequ
 
 	message := generateWording(request.MandatoryRequest.Language,
 		user.Currency,
-		1, // TODO
+		user.Scale,
 		request.Amount,
 		user.Balance)
 

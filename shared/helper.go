@@ -48,7 +48,7 @@ func MapRecordToUser(record []string) (domain.User, error) {
 		return domain.User{}, fmt.Errorf("invalid balance: %v", err)
 	}
 
-	scale, err := uint32FromString(record[3])
+	scale, err := uint8FromString(record[3])
 	if err != nil {
 		return domain.User{}, fmt.Errorf("invalid scale: %v", err)
 	}
@@ -78,8 +78,8 @@ func MapRecordToUser(record []string) (domain.User, error) {
 	}, nil
 }
 
-func uint32FromString(s string) (uint32, error) {
-	var val uint32
+func uint8FromString(s string) (uint8, error) {
+	var val uint8
 	_, err := fmt.Sscanf(s, "%d", &val)
 	if err != nil {
 		return 0, err

@@ -5,16 +5,38 @@ import (
 	user2 "PAPER-WALLET-SERVICE-CORE/shared/dto/user"
 	"fmt"
 	"github.com/shopspring/decimal"
+	"strings"
 )
 
-func generateWording(lang, currency string, scale int32, amount, balance decimal.Decimal) string {
-	amountFormatted := amount.Round(scale)
-	balanceFormatted := balance.Round(scale)
-	newBalance := balanceFormatted.Sub(amountFormatted)
+func formatCurrency(amount decimal.Decimal, scale uint8) string {
+	amountFormatted := amount.Round(int32(scale))
+	amountStr := amountFormatted.String()
+	parts := strings.Split(amountStr, ".")
+	integerPart := parts[0]
+
+	var formattedIntPart string
+	for i, digit := range integerPart {
+		if i > 0 && (len(integerPart)-i)%3 == 0 {
+			formattedIntPart += ","
+		}
+		formattedIntPart += string(digit)
+	}
+
+	if len(parts) > 1 {
+		return formattedIntPart + "." + parts[1]
+	}
+	return formattedIntPart
+}
+
+func generateWording(lang, currency string, scale uint8, amount, balance decimal.Decimal) string {
+	amountFormatted := formatCurrency(amount, scale)
+	balanceFormatted := formatCurrency(balance, scale)
+	newBalance := balance.Sub(amount).Round(int32(scale))
+	newBalanceFormatted := formatCurrency(newBalance, scale)
 
 	messages := map[string]string{
-		"en": "Success! You have successfully requested to disburse %s%s. Your previous balance was %s%s, and after the disbursement, your new balance is %s%s",
-		"id": "Sukses! Anda berhasil meminta untuk mencairkan %s%s. Saldo Anda sebelumnya adalah %s%s, dan setelah pencairan, saldo baru Anda menjadi %s%s",
+		"en": "Success! You have successfully requested to disburse `%s %s`. Your previous balance was `%s %s`, and after the disbursement, your new balance is `%s %s`",
+		"id": "Sukses! Anda berhasil meminta untuk mencairkan `%s %s`. Saldo Anda sebelumnya adalah `%s %s`, dan setelah pencairan, saldo baru Anda menjadi `%s %s`",
 	}
 
 	messageTemplate, exists := messages[lang]
@@ -24,9 +46,9 @@ func generateWording(lang, currency string, scale int32, amount, balance decimal
 
 	return fmt.Sprintf(
 		messageTemplate,
-		currency, amountFormatted.String(),
-		currency, balanceFormatted.String(),
-		currency, newBalance.String(),
+		currency, amountFormatted,
+		currency, balanceFormatted,
+		currency, newBalanceFormatted,
 	)
 }
 
