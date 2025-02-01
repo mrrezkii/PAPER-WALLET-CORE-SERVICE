@@ -13,8 +13,8 @@ func NewController(e *echo.Echo, userUsecase user.UserUsecase) {
 	controller := &UserController{userUsecase}
 
 	e.GET("/paper-wallet-core-service/users", controller.GetAllUsers)
-	e.GET("/paper-wallet-core-service/users:id", controller.GetUser)
-	e.POST("/paper-wallet-core-service/users:id", controller.CreateUser)
+	e.GET("/paper-wallet-core-service/users/:id", controller.GetUser)
+	e.POST("/paper-wallet-core-service/users", controller.CreateUser)
 	e.PUT("/paper-wallet-core-service/users", controller.UpdateUser)
 	e.DELETE("/paper-wallet-core-service/users", controller.DeleteUser)
 }

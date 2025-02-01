@@ -58,7 +58,6 @@ func (u userRepository) Create(ctx context.Context, user *domain.User) error {
 	}
 
 	var exist bool
-	var newRecords [][]string
 
 	for _, record := range records[1:] {
 		existingUser, err := helper.MapRecordToUser(record)
@@ -66,7 +65,7 @@ func (u userRepository) Create(ctx context.Context, user *domain.User) error {
 			continue
 		}
 
-		if existingUser.ID == user.ID {
+		if existingUser.ID == user.ID && existingUser.IsDeleted == 0 {
 			exist = true
 		}
 	}
@@ -75,21 +74,21 @@ func (u userRepository) Create(ctx context.Context, user *domain.User) error {
 		return fmt.Errorf("user with ID %s already exists", user.ID)
 	}
 
-	newRecords = append(newRecords, []string{
+	records = append(records, []string{
 		user.ID,
 		user.Name,
 		user.Currency,
 		fmt.Sprintf("%d", user.Scale),
 		user.Balance.String(),
 		"system",
-		time.Now().UTC().Format("2006-01-02 15:04:05"),
+		time.Now().UTC().Format(time.RFC3339),
 		"system",
-		time.Now().UTC().Format("2006-01-02 15:04:05"),
+		time.Now().UTC().Format(time.RFC3339),
 		fmt.Sprintf("%d", 1),
 		fmt.Sprintf("%d", 0),
 	})
 
-	err = u.writeCSVFile(newRecords)
+	err = u.writeCSVFile(records)
 	if err != nil {
 		return err
 	}

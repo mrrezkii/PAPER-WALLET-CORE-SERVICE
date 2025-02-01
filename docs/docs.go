@@ -103,6 +103,35 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "description": "Delete a user by their ID, either hard or soft delete based on the provided flag",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user-controller"
+                ],
+                "summary": "Delete a user",
+                "parameters": [
+                    {
+                        "description": "Delete User Request",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.DeleteUserRequestDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "User successfully deleted"
+                    }
+                }
             }
         },
         "/paper-wallet-core-service/users/{id}": {
@@ -222,7 +251,7 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "user": {
-                    "$ref": "#/definitions/domain.User"
+                    "$ref": "#/definitions/user.UserDto"
                 }
             }
         },
@@ -230,7 +259,21 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "user": {
-                    "$ref": "#/definitions/domain.User"
+                    "$ref": "#/definitions/user.UserDto"
+                }
+            }
+        },
+        "user.DeleteUserRequestDto": {
+            "type": "object",
+            "required": [
+                "userId"
+            ],
+            "properties": {
+                "isHardDelete": {
+                    "type": "boolean"
+                },
+                "userId": {
+                    "type": "string"
                 }
             }
         },
@@ -238,7 +281,33 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "user": {
-                    "$ref": "#/definitions/domain.User"
+                    "$ref": "#/definitions/user.UserDto"
+                }
+            }
+        },
+        "user.UserDto": {
+            "type": "object",
+            "required": [
+                "balance",
+                "currency",
+                "name",
+                "scale"
+            ],
+            "properties": {
+                "balance": {
+                    "type": "number"
+                },
+                "currency": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "scale": {
+                    "type": "integer"
                 }
             }
         },

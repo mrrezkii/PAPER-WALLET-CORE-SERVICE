@@ -38,7 +38,7 @@ func (u userUsecase) Find(ctx context.Context) ([]domain.User, error) {
 
 func (u userUsecase) FindOne(ctx context.Context, userID string) (*domain.User, error) {
 	user, err := u.repository.FindOne(ctx, map[string]interface{}{
-		"UserID":    userID,
+		"ID":        userID,
 		"IsDeleted": 0,
 	})
 

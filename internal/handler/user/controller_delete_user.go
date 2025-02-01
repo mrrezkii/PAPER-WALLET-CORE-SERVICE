@@ -15,7 +15,6 @@ import (
 // @Param user body user.DeleteUserRequestDto true "Delete User Request"
 // @Success 204 {object} nil "User successfully deleted"
 // @Router /paper-wallet-core-service/users [delete]
-
 func (u *UserController) DeleteUser(c echo.Context) error {
 	var (
 		ctx = c.Request().Context()

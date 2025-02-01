@@ -32,17 +32,44 @@ definitions:
   user.CreateUserRequestDto:
     properties:
       user:
-        $ref: '#/definitions/domain.User'
+        $ref: '#/definitions/user.UserDto'
     type: object
   user.CreateUserResponseDto:
     properties:
       user:
-        $ref: '#/definitions/domain.User'
+        $ref: '#/definitions/user.UserDto'
+    type: object
+  user.DeleteUserRequestDto:
+    properties:
+      isHardDelete:
+        type: boolean
+      userId:
+        type: string
+    required:
+    - userId
     type: object
   user.UpdateUserRequestDto:
     properties:
       user:
-        $ref: '#/definitions/domain.User'
+        $ref: '#/definitions/user.UserDto'
+    type: object
+  user.UserDto:
+    properties:
+      balance:
+        type: number
+      currency:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      scale:
+        type: integer
+    required:
+    - balance
+    - currency
+    - name
+    - scale
     type: object
   withdraw.WithdrawRequestDto:
     properties:
@@ -58,6 +85,26 @@ info:
   contact: {}
 paths:
   /paper-wallet-core-service/users:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a user by their ID, either hard or soft delete based on
+        the provided flag
+      parameters:
+      - description: Delete User Request
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/user.DeleteUserRequestDto'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: User successfully deleted
+      summary: Delete a user
+      tags:
+      - user-controller
     get:
       consumes:
       - application/json
