@@ -1,8 +1,8 @@
 package user
 
 import (
-	"PAPER-WALLET-SERVICE-CORE/internal/dto/user"
 	"PAPER-WALLET-SERVICE-CORE/internal/handler"
+	"PAPER-WALLET-SERVICE-CORE/shared/dto/user"
 	"github.com/labstack/echo/v4"
 	"net/http"
 )

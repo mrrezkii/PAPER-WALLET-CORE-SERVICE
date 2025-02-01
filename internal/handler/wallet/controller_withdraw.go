@@ -1,8 +1,8 @@
 package wallet
 
 import (
-	"PAPER-WALLET-SERVICE-CORE/internal/dto/withdraw"
 	"PAPER-WALLET-SERVICE-CORE/internal/handler"
+	"PAPER-WALLET-SERVICE-CORE/shared/dto/withdraw"
 	"github.com/labstack/echo/v4"
 	"net/http"
 )

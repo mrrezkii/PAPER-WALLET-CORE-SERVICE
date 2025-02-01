@@ -1,6 +1,8 @@
 package user
 
-import "PAPER-WALLET-SERVICE-CORE/internal/dto"
+import (
+	"PAPER-WALLET-SERVICE-CORE/shared/dto"
+)
 
 type DeleteUserRequestDto struct {
 	MandatoryRequest dto.MandatoryRequest `json:"-"`

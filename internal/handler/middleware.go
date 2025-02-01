@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"PAPER-WALLET-SERVICE-CORE/helper"
-	"PAPER-WALLET-SERVICE-CORE/internal/dto"
+	"PAPER-WALLET-SERVICE-CORE/shared"
+	"PAPER-WALLET-SERVICE-CORE/shared/dto"
 	"context"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
@@ -11,7 +11,7 @@ import (
 
 func RegisterMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		mandatoryRequest := helper.GetMandatoryRequest(c)
+		mandatoryRequest := shared.GetMandatoryRequest(c)
 		err := c.Validate(&mandatoryRequest)
 		if err != nil && isApplySetMandatoryRequest(c.Request().RequestURI) {
 			return err

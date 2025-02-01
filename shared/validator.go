@@ -7,16 +7,16 @@ type (
 		Validate(interface{}) error
 	}
 
-	validate struct {
+	Validate struct {
 		instance *v10.Validate
 	}
 )
 
-func NewValidator() *validate {
+func NewValidator() *Validate {
 	v := v10.New(v10.WithRequiredStructEnabled()) // Tambahkan opsi yang diinginkan
-	return &validate{instance: v}
+	return &Validate{instance: v}
 }
 
-func (v *validate) Validate(i interface{}) error {
+func (v *Validate) Validate(i interface{}) error {
 	return v.instance.Struct(i)
 }

@@ -2,7 +2,7 @@ package user
 
 import (
 	"PAPER-WALLET-SERVICE-CORE/internal/domain"
-	user2 "PAPER-WALLET-SERVICE-CORE/internal/dto/user"
+	user2 "PAPER-WALLET-SERVICE-CORE/shared/dto/user"
 )
 
 func userDtoToUser(user user2.UserDto) domain.User {

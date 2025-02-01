@@ -1,15 +1,15 @@
 package user
 
 import (
-	"PAPER-WALLET-SERVICE-CORE/internal/dto"
+	"PAPER-WALLET-SERVICE-CORE/shared/dto"
 )
 
 type (
-	CreateUserRequestDto struct {
+	UpdateUserRequestDto struct {
 		MandatoryRequest dto.MandatoryRequest `json:"-"`
 		User             UserDto              `json:"user"`
 	}
-	CreateUserResponseDto struct {
+	UpdateUserResponseDto struct {
 		MandatoryRequest dto.MandatoryRequest `json:"-"`
 		User             UserDto              `json:"user"`
 	}

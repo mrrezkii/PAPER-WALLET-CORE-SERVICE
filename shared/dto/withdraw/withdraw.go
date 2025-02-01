@@ -1,7 +1,7 @@
 package withdraw
 
 import (
-	"PAPER-WALLET-SERVICE-CORE/internal/dto"
+	"PAPER-WALLET-SERVICE-CORE/shared/dto"
 	"github.com/shopspring/decimal"
 )
 

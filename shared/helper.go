@@ -1,8 +1,8 @@
-package helper
+package shared
 
 import (
 	"PAPER-WALLET-SERVICE-CORE/internal/domain"
-	"PAPER-WALLET-SERVICE-CORE/internal/dto"
+	"PAPER-WALLET-SERVICE-CORE/shared/dto"
 	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/shopspring/decimal"

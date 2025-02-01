@@ -2,8 +2,8 @@ package repository
 
 import (
 	"PAPER-WALLET-SERVICE-CORE/config"
-	"PAPER-WALLET-SERVICE-CORE/helper"
 	"PAPER-WALLET-SERVICE-CORE/internal/domain"
+	"PAPER-WALLET-SERVICE-CORE/shared"
 	"context"
 	"fmt"
 	"time"
@@ -60,7 +60,7 @@ func (u userRepository) Create(ctx context.Context, user *domain.User) error {
 	var exist bool
 
 	for _, record := range records[1:] {
-		existingUser, err := helper.MapRecordToUser(record)
+		existingUser, err := shared.MapRecordToUser(record)
 		if err != nil {
 			continue
 		}
@@ -108,7 +108,7 @@ func (u userRepository) Update(ctx context.Context, user *domain.User) error {
 	updatedRecords = append(updatedRecords, records[0])
 
 	for _, record := range records[1:] {
-		existingUser, err := helper.MapRecordToUser(record)
+		existingUser, err := shared.MapRecordToUser(record)
 		if err != nil {
 			continue
 		}
@@ -191,7 +191,7 @@ func (u userRepository) HardDelete(ctx context.Context, user *domain.User) error
 	updatedRecords = append(updatedRecords, records[0])
 
 	for _, record := range records[1:] {
-		existingUser, err := helper.MapRecordToUser(record)
+		existingUser, err := shared.MapRecordToUser(record)
 		if err != nil {
 			continue
 		}

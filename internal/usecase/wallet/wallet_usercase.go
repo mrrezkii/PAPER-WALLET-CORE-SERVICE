@@ -1,9 +1,9 @@
 package wallet
 
 import (
-	"PAPER-WALLET-SERVICE-CORE/internal/dto"
-	"PAPER-WALLET-SERVICE-CORE/internal/dto/withdraw"
 	"PAPER-WALLET-SERVICE-CORE/internal/repository"
+	"PAPER-WALLET-SERVICE-CORE/shared/dto"
+	"PAPER-WALLET-SERVICE-CORE/shared/dto/withdraw"
 	"context"
 	"errors"
 )

@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"PAPER-WALLET-SERVICE-CORE/helper"
 	"PAPER-WALLET-SERVICE-CORE/internal/domain"
+	"PAPER-WALLET-SERVICE-CORE/shared"
 	"encoding/csv"
 	"fmt"
 	"os"
@@ -49,12 +49,12 @@ func (u userRepository) writeCSVFile(records [][]string) error {
 func (u userRepository) findUsersByFilter(records [][]string, filter map[string]interface{}) ([]domain.User, error) {
 	var users []domain.User
 	for _, record := range records[1:] {
-		user, err := helper.MapRecordToUser(record)
+		user, err := shared.MapRecordToUser(record)
 		if err != nil {
 			continue
 		}
 
-		if helper.MatchFilter(user, filter) {
+		if shared.MatchFilter(user, filter) {
 			users = append(users, user)
 		}
 	}
@@ -68,7 +68,7 @@ func (u userRepository) softDeleteUserRecord(records [][]string, user *domain.Us
 	updatedRecords = append(updatedRecords, records[0]) // Keep header row
 
 	for _, record := range records[1:] {
-		existingUser, err := helper.MapRecordToUser(record)
+		existingUser, err := shared.MapRecordToUser(record)
 		if err != nil {
 			continue
 		}
