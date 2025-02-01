@@ -3,6 +3,7 @@ package repository
 import (
 	"PAPER-WALLET-SERVICE-CORE/config"
 	"PAPER-WALLET-SERVICE-CORE/internal/domain"
+	"PAPER-WALLET-SERVICE-CORE/internal/handler"
 	"PAPER-WALLET-SERVICE-CORE/shared"
 	"context"
 	"fmt"
@@ -28,7 +29,7 @@ func NewUserRepository(config *config.Config) UserRepository {
 	return &userRepository{filePath: config.CSVFilePath}
 }
 
-func (u userRepository) Find(ctx context.Context, filter map[string]interface{}) ([]domain.User, error) {
+func (u userRepository) Find(_ context.Context, filter map[string]interface{}) ([]domain.User, error) {
 	records, err := u.readCSVFile()
 	if err != nil {
 		return nil, err
@@ -37,7 +38,7 @@ func (u userRepository) Find(ctx context.Context, filter map[string]interface{})
 	return u.findUsersByFilter(records, filter)
 }
 
-func (u userRepository) FindOne(ctx context.Context, filter map[string]interface{}) (*domain.User, error) {
+func (u userRepository) FindOne(_ context.Context, filter map[string]interface{}) (*domain.User, error) {
 	records, err := u.readCSVFile()
 	if err != nil {
 		return nil, err
@@ -52,6 +53,7 @@ func (u userRepository) FindOne(ctx context.Context, filter map[string]interface
 }
 
 func (u userRepository) Create(ctx context.Context, user *domain.User) error {
+	mandatoryRequest := handler.MandatoryRequest(ctx)
 	records, err := u.readCSVFile()
 	if err != nil {
 		return err
@@ -74,16 +76,17 @@ func (u userRepository) Create(ctx context.Context, user *domain.User) error {
 		return fmt.Errorf("user with ID %s already exists", user.ID)
 	}
 
+	now := time.Now().UTC().Format(time.RFC3339)
 	records = append(records, []string{
 		user.ID,
 		user.Name,
 		user.Currency,
 		fmt.Sprintf("%d", user.Scale),
 		user.Balance.String(),
-		"system",
-		time.Now().UTC().Format(time.RFC3339),
-		"system",
-		time.Now().UTC().Format(time.RFC3339),
+		mandatoryRequest.Username,
+		now,
+		mandatoryRequest.Username,
+		now,
 		fmt.Sprintf("%d", 1),
 		fmt.Sprintf("%d", 0),
 	})
@@ -97,6 +100,7 @@ func (u userRepository) Create(ctx context.Context, user *domain.User) error {
 }
 
 func (u userRepository) Update(ctx context.Context, user *domain.User) error {
+	mandatoryRequest := handler.MandatoryRequest(ctx)
 	records, err := u.readCSVFile()
 	if err != nil {
 		return err
@@ -140,8 +144,8 @@ func (u userRepository) Update(ctx context.Context, user *domain.User) error {
 				existingUser.Balance.String(),
 				existingUser.CreatedBy,
 				existingUser.CreatedDate.Format(time.RFC3339),
-				existingUser.UpdatedBy,
-				existingUser.UpdatedDate.Format(time.RFC3339),
+				mandatoryRequest.Username,
+				time.Now().UTC().Format(time.RFC3339),
 				fmt.Sprintf("%d", existingUser.Version),
 				fmt.Sprintf("%d", existingUser.IsDeleted),
 			})
@@ -168,7 +172,7 @@ func (u userRepository) SoftDelete(ctx context.Context, user *domain.User) error
 		return err
 	}
 
-	updatedRecords, err := u.softDeleteUserRecord(records, user)
+	updatedRecords, err := u.softDeleteUserRecord(ctx, records, user)
 	if err != nil {
 		return err
 	}
@@ -180,7 +184,7 @@ func (u userRepository) SoftDelete(ctx context.Context, user *domain.User) error
 	return nil
 }
 
-func (u userRepository) HardDelete(ctx context.Context, user *domain.User) error {
+func (u userRepository) HardDelete(_ context.Context, user *domain.User) error {
 	records, err := u.readCSVFile()
 	if err != nil {
 		return err

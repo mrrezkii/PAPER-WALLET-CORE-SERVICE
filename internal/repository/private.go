@@ -2,7 +2,9 @@ package repository
 
 import (
 	"PAPER-WALLET-SERVICE-CORE/internal/domain"
+	"PAPER-WALLET-SERVICE-CORE/internal/handler"
 	"PAPER-WALLET-SERVICE-CORE/shared"
+	"context"
 	"encoding/csv"
 	"fmt"
 	"os"
@@ -61,11 +63,12 @@ func (u userRepository) findUsersByFilter(records [][]string, filter map[string]
 	return users, nil
 }
 
-func (u userRepository) softDeleteUserRecord(records [][]string, user *domain.User) ([][]string, error) {
+func (u userRepository) softDeleteUserRecord(ctx context.Context, records [][]string, user *domain.User) ([][]string, error) {
+	mandatoryRequest := handler.MandatoryRequest(ctx)
 	var updated bool
 	var updatedRecords [][]string
 
-	updatedRecords = append(updatedRecords, records[0]) // Keep header row
+	updatedRecords = append(updatedRecords, records[0])
 
 	for _, record := range records[1:] {
 		existingUser, err := shared.MapRecordToUser(record)
@@ -75,7 +78,7 @@ func (u userRepository) softDeleteUserRecord(records [][]string, user *domain.Us
 
 		if existingUser.ID == user.ID {
 			existingUser.IsDeleted = 1
-			existingUser.UpdatedBy = "system"
+			existingUser.UpdatedBy = mandatoryRequest.Username
 			existingUser.UpdatedDate = time.Now()
 			existingUser.Version++
 

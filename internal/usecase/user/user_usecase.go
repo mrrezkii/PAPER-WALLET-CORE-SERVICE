@@ -4,6 +4,7 @@ import (
 	"PAPER-WALLET-SERVICE-CORE/internal/domain"
 	"PAPER-WALLET-SERVICE-CORE/internal/repository"
 	"context"
+	"github.com/google/uuid"
 )
 
 type (
@@ -50,6 +51,9 @@ func (u userUsecase) FindOne(ctx context.Context, userID string) (*domain.User, 
 }
 
 func (u userUsecase) Create(ctx context.Context, user *domain.User) error {
+	if user.ID == "" {
+		user.ID = uuid.New().String()
+	}
 	err := u.repository.Create(ctx, user)
 	if err != nil {
 		return err
