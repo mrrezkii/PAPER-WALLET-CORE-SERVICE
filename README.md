@@ -91,7 +91,7 @@ curl -X 'POST' \
 - **X-Channel-Id:** Channel identifier
 - **X-Request-Id:** Unique request identifier
 - **X-Service-Id:** Service identifier (e.g., gateway)
-- **X-Username:** User identifier (e.g., muhammad.rezki,ananda@gmail.com)
+- **X-Username:** User identifier (e.g., muhammad.rezki.ananda@gmail.com)
 - **Accept-Language:** Preferred language (e.g., id & en)
 - **User-Agent:** Client information
 - **Authorization:** Authentication
