@@ -2,8 +2,11 @@ package helper
 
 import (
 	"PAPER-WALLET-SERVICE-CORE/internal/domain"
+	"PAPER-WALLET-SERVICE-CORE/internal/dto"
 	"fmt"
+	"github.com/labstack/echo/v4"
 	"github.com/shopspring/decimal"
+	"net/http"
 	"reflect"
 	"time"
 )
@@ -88,4 +91,29 @@ func intFromString(s string) (int, error) {
 	var val int
 	_, err := fmt.Sscanf(s, "%d", &val)
 	return val, err
+}
+
+func GetMandatoryRequest(e echo.Context) dto.MandatoryRequest {
+	var header = e.Request().Header
+
+	return dto.MandatoryRequest{
+		ChannelID:     getHeaderOrDefault(header, "X-Channel-Id", ""),
+		RequestID:     getHeaderOrDefault(header, "X-Request-Id", ""),
+		ServiceID:     getHeaderOrDefault(header, "X-Service-Id", ""),
+		Username:      getHeaderOrDefault(header, "X-Username", ""),
+		Language:      getHeaderOrDefault(header, "Accept-Language", "en"),
+		UserAgent:     getHeaderOrDefault(header, "User-Agent", ""),
+		Authorization: getHeaderOrDefault(header, "Authorization", ""),
+		AppVersion:    getHeaderOrDefault(header, "X-App-Version", ""),
+	}
+}
+
+func getHeaderOrDefault(header http.Header, key, defaultValue string) string {
+	var val = header.Get(key)
+
+	if len(val) == 0 {
+		return defaultValue
+	}
+
+	return val
 }

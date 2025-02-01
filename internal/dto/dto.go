@@ -2,14 +2,14 @@ package dto
 
 type (
 	MandatoryRequest struct {
-		ChannelID     string `json:"channelId" validate:"required"`
-		RequestID     string `json:"requestId" validate:"required"`
-		ServiceID     string `json:"serviceId" validate:"required"`
-		Username      string `json:"username" validate:"required"`
-		Language      string `json:"language" validate:"required"`
-		UserAgent     string `json:"userAgent" validate:"required"`
-		Authorization string `json:"authorization" validate:"required"`
-		AppVersion    string `json:"appVersion,omitempty"`
+		ChannelID     string `json:"X-Channel-Id" validate:"required"`
+		RequestID     string `json:"X-Request-Id" validate:"required"`
+		ServiceID     string `json:"X-Service-Id" validate:"required"`
+		Username      string `json:"X-Username" validate:"required"`
+		Language      string `json:"Accept-Language" validate:"required"`
+		UserAgent     string `json:"User-Agent" validate:"required"`
+		Authorization string `json:"Authorization" validate:"required"`
+		AppVersion    string `json:"X-App-Version,omitempty"`
 	}
 
 	BaseResponse struct {

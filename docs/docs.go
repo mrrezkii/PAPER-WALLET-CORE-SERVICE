@@ -28,6 +28,70 @@ const docTemplate = `{
                     "user-controller"
                 ],
                 "summary": "Get all users",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "iOS",
+                        "description": "Channel identifier",
+                        "name": "X-Channel-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "RequestId",
+                        "description": "Unique request identifier",
+                        "name": "X-Request-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "gateway",
+                        "description": "Service identifier",
+                        "name": "X-Service-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Username associated with the request",
+                        "name": "X-Username",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "id",
+                        "description": "Language preference for the response",
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_2 like Mac OS X",
+                        "description": "User agent identifier",
+                        "name": "User-Agent",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Basic dXNlcm5hbWU6cGFzc3dvcmQ=",
+                        "description": "Authorization token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "1.2.3",
+                        "description": "Application version",
+                        "name": "X-App-Version",
+                        "in": "header"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -53,6 +117,68 @@ const docTemplate = `{
                 ],
                 "summary": "Update an existing user",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "default": "iOS",
+                        "description": "Channel identifier",
+                        "name": "X-Channel-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "RequestId",
+                        "description": "Unique request identifier",
+                        "name": "X-Request-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "gateway",
+                        "description": "Service identifier",
+                        "name": "X-Service-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Username associated with the request",
+                        "name": "X-Username",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "id",
+                        "description": "Language preference for the response",
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_2 like Mac OS X",
+                        "description": "User agent identifier",
+                        "name": "User-Agent",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Basic dXNlcm5hbWU6cGFzc3dvcmQ=",
+                        "description": "Authorization token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "1.2.3",
+                        "description": "Application version",
+                        "name": "X-App-Version",
+                        "in": "header"
+                    },
                     {
                         "description": "User Data for Update",
                         "name": "user",
@@ -86,6 +212,68 @@ const docTemplate = `{
                 "summary": "Create a new user",
                 "parameters": [
                     {
+                        "type": "string",
+                        "default": "iOS",
+                        "description": "Channel identifier",
+                        "name": "X-Channel-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "RequestId",
+                        "description": "Unique request identifier",
+                        "name": "X-Request-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "gateway",
+                        "description": "Service identifier",
+                        "name": "X-Service-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Username associated with the request",
+                        "name": "X-Username",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "id",
+                        "description": "Language preference for the response",
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_2 like Mac OS X",
+                        "description": "User agent identifier",
+                        "name": "User-Agent",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Basic dXNlcm5hbWU6cGFzc3dvcmQ=",
+                        "description": "Authorization token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "1.2.3",
+                        "description": "Application version",
+                        "name": "X-App-Version",
+                        "in": "header"
+                    },
+                    {
                         "description": "User Data",
                         "name": "user",
                         "in": "body",
@@ -117,6 +305,68 @@ const docTemplate = `{
                 ],
                 "summary": "Delete a user",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "default": "iOS",
+                        "description": "Channel identifier",
+                        "name": "X-Channel-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "RequestId",
+                        "description": "Unique request identifier",
+                        "name": "X-Request-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "gateway",
+                        "description": "Service identifier",
+                        "name": "X-Service-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Username associated with the request",
+                        "name": "X-Username",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "id",
+                        "description": "Language preference for the response",
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_2 like Mac OS X",
+                        "description": "User agent identifier",
+                        "name": "User-Agent",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Basic dXNlcm5hbWU6cGFzc3dvcmQ=",
+                        "description": "Authorization token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "1.2.3",
+                        "description": "Application version",
+                        "name": "X-App-Version",
+                        "in": "header"
+                    },
                     {
                         "description": "Delete User Request",
                         "name": "user",
@@ -150,6 +400,68 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "default": "iOS",
+                        "description": "Channel identifier",
+                        "name": "X-Channel-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "RequestId",
+                        "description": "Unique request identifier",
+                        "name": "X-Request-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "gateway",
+                        "description": "Service identifier",
+                        "name": "X-Service-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Username associated with the request",
+                        "name": "X-Username",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "id",
+                        "description": "Language preference for the response",
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_2 like Mac OS X",
+                        "description": "User agent identifier",
+                        "name": "User-Agent",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Basic dXNlcm5hbWU6cGFzc3dvcmQ=",
+                        "description": "Authorization token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "1.2.3",
+                        "description": "Application version",
+                        "name": "X-App-Version",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
                         "description": "User ID",
                         "name": "id",
                         "in": "path",
@@ -180,6 +492,68 @@ const docTemplate = `{
                 ],
                 "summary": "Withdraw funds from wallet",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "default": "iOS",
+                        "description": "Channel identifier",
+                        "name": "X-Channel-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "RequestId",
+                        "description": "Unique request identifier",
+                        "name": "X-Request-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "gateway",
+                        "description": "Service identifier",
+                        "name": "X-Service-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Username associated with the request",
+                        "name": "X-Username",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "id",
+                        "description": "Language preference for the response",
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_2 like Mac OS X",
+                        "description": "User agent identifier",
+                        "name": "User-Agent",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Basic dXNlcm5hbWU6cGFzc3dvcmQ=",
+                        "description": "Authorization token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "1.2.3",
+                        "description": "Application version",
+                        "name": "X-App-Version",
+                        "in": "header"
+                    },
                     {
                         "description": "Withdraw Request",
                         "name": "request",

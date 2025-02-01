@@ -91,6 +91,53 @@ paths:
       description: Delete a user by their ID, either hard or soft delete based on
         the provided flag
       parameters:
+      - default: iOS
+        description: Channel identifier
+        in: header
+        name: X-Channel-Id
+        required: true
+        type: string
+      - default: RequestId
+        description: Unique request identifier
+        in: header
+        name: X-Request-Id
+        required: true
+        type: string
+      - default: gateway
+        description: Service identifier
+        in: header
+        name: X-Service-Id
+        required: true
+        type: string
+      - description: Username associated with the request
+        in: header
+        name: X-Username
+        required: true
+        type: string
+      - default: id
+        description: Language preference for the response
+        in: header
+        name: Accept-Language
+        required: true
+        type: string
+      - default: 'User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_2 like Mac OS
+          X'
+        description: User agent identifier
+        in: header
+        name: User-Agent
+        required: true
+        type: string
+      - default: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+        description: Authorization token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - default: 1.2.3
+        description: Application version
+        in: header
+        name: X-App-Version
+        type: string
       - description: Delete User Request
         in: body
         name: user
@@ -109,6 +156,54 @@ paths:
       consumes:
       - application/json
       description: Retrieve a list of all users
+      parameters:
+      - default: iOS
+        description: Channel identifier
+        in: header
+        name: X-Channel-Id
+        required: true
+        type: string
+      - default: RequestId
+        description: Unique request identifier
+        in: header
+        name: X-Request-Id
+        required: true
+        type: string
+      - default: gateway
+        description: Service identifier
+        in: header
+        name: X-Service-Id
+        required: true
+        type: string
+      - description: Username associated with the request
+        in: header
+        name: X-Username
+        required: true
+        type: string
+      - default: id
+        description: Language preference for the response
+        in: header
+        name: Accept-Language
+        required: true
+        type: string
+      - default: 'User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_2 like Mac OS
+          X'
+        description: User agent identifier
+        in: header
+        name: User-Agent
+        required: true
+        type: string
+      - default: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+        description: Authorization token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - default: 1.2.3
+        description: Application version
+        in: header
+        name: X-App-Version
+        type: string
       produces:
       - application/json
       responses:
@@ -126,6 +221,53 @@ paths:
       - application/json
       description: Create a new user with the provided details
       parameters:
+      - default: iOS
+        description: Channel identifier
+        in: header
+        name: X-Channel-Id
+        required: true
+        type: string
+      - default: RequestId
+        description: Unique request identifier
+        in: header
+        name: X-Request-Id
+        required: true
+        type: string
+      - default: gateway
+        description: Service identifier
+        in: header
+        name: X-Service-Id
+        required: true
+        type: string
+      - description: Username associated with the request
+        in: header
+        name: X-Username
+        required: true
+        type: string
+      - default: id
+        description: Language preference for the response
+        in: header
+        name: Accept-Language
+        required: true
+        type: string
+      - default: 'User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_2 like Mac OS
+          X'
+        description: User agent identifier
+        in: header
+        name: User-Agent
+        required: true
+        type: string
+      - default: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+        description: Authorization token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - default: 1.2.3
+        description: Application version
+        in: header
+        name: X-App-Version
+        type: string
       - description: User Data
         in: body
         name: user
@@ -148,6 +290,53 @@ paths:
       description: Update the details of an existing user based on the provided user
         ID and data
       parameters:
+      - default: iOS
+        description: Channel identifier
+        in: header
+        name: X-Channel-Id
+        required: true
+        type: string
+      - default: RequestId
+        description: Unique request identifier
+        in: header
+        name: X-Request-Id
+        required: true
+        type: string
+      - default: gateway
+        description: Service identifier
+        in: header
+        name: X-Service-Id
+        required: true
+        type: string
+      - description: Username associated with the request
+        in: header
+        name: X-Username
+        required: true
+        type: string
+      - default: id
+        description: Language preference for the response
+        in: header
+        name: Accept-Language
+        required: true
+        type: string
+      - default: 'User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_2 like Mac OS
+          X'
+        description: User agent identifier
+        in: header
+        name: User-Agent
+        required: true
+        type: string
+      - default: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+        description: Authorization token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - default: 1.2.3
+        description: Application version
+        in: header
+        name: X-App-Version
+        type: string
       - description: User Data for Update
         in: body
         name: user
@@ -170,6 +359,53 @@ paths:
       - application/json
       description: Get details of a user by their ID
       parameters:
+      - default: iOS
+        description: Channel identifier
+        in: header
+        name: X-Channel-Id
+        required: true
+        type: string
+      - default: RequestId
+        description: Unique request identifier
+        in: header
+        name: X-Request-Id
+        required: true
+        type: string
+      - default: gateway
+        description: Service identifier
+        in: header
+        name: X-Service-Id
+        required: true
+        type: string
+      - description: Username associated with the request
+        in: header
+        name: X-Username
+        required: true
+        type: string
+      - default: id
+        description: Language preference for the response
+        in: header
+        name: Accept-Language
+        required: true
+        type: string
+      - default: 'User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_2 like Mac OS
+          X'
+        description: User agent identifier
+        in: header
+        name: User-Agent
+        required: true
+        type: string
+      - default: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+        description: Authorization token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - default: 1.2.3
+        description: Application version
+        in: header
+        name: X-App-Version
+        type: string
       - description: User ID
         in: path
         name: id
@@ -191,6 +427,53 @@ paths:
       - application/json
       description: Withdraw funds from the user's wallet
       parameters:
+      - default: iOS
+        description: Channel identifier
+        in: header
+        name: X-Channel-Id
+        required: true
+        type: string
+      - default: RequestId
+        description: Unique request identifier
+        in: header
+        name: X-Request-Id
+        required: true
+        type: string
+      - default: gateway
+        description: Service identifier
+        in: header
+        name: X-Service-Id
+        required: true
+        type: string
+      - description: Username associated with the request
+        in: header
+        name: X-Username
+        required: true
+        type: string
+      - default: id
+        description: Language preference for the response
+        in: header
+        name: Accept-Language
+        required: true
+        type: string
+      - default: 'User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_2 like Mac OS
+          X'
+        description: User agent identifier
+        in: header
+        name: User-Agent
+        required: true
+        type: string
+      - default: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+        description: Authorization token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - default: 1.2.3
+        description: Application version
+        in: header
+        name: X-App-Version
+        type: string
       - description: Withdraw Request
         in: body
         name: request

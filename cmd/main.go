@@ -3,6 +3,7 @@ package main
 import (
 	"PAPER-WALLET-SERVICE-CORE/config"
 	_ "PAPER-WALLET-SERVICE-CORE/docs"
+	"PAPER-WALLET-SERVICE-CORE/internal/handler"
 	"PAPER-WALLET-SERVICE-CORE/internal/handler/user"
 	"PAPER-WALLET-SERVICE-CORE/internal/handler/wallet"
 	"PAPER-WALLET-SERVICE-CORE/internal/repository"
@@ -20,6 +21,7 @@ func main() {
 	walletUsecase := wallet2.NewWalletUsecase(userRepository)
 
 	e := echo.New()
+	e.Use(handler.RegisterMiddleware)
 
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
