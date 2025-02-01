@@ -6,6 +6,7 @@ import (
 	"PAPER-WALLET-SERVICE-CORE/shared/dto/withdraw"
 	"context"
 	"errors"
+	"github.com/shopspring/decimal"
 )
 
 type (
@@ -22,8 +23,12 @@ func NewWalletUsecase(repository repository.UserRepository) WalletUsecase {
 }
 
 func (u userUsecase) Withdraw(ctx context.Context, request withdraw.WithdrawRequestDto) (withdraw.WithdrawResponseDto, error) {
+	if request.Amount.LessThanOrEqual(decimal.NewFromInt(0)) {
+		return withdraw.WithdrawResponseDto{}, errors.New("invalid amount")
+	}
+
 	user, err := u.repository.FindOne(ctx, map[string]interface{}{
-		"UserID":    request.UserID,
+		"ID":        request.UserID,
 		"IsDeleted": 0,
 	})
 
@@ -35,7 +40,7 @@ func (u userUsecase) Withdraw(ctx context.Context, request withdraw.WithdrawRequ
 		return withdraw.WithdrawResponseDto{}, errors.New("user not found")
 	}
 
-	if user.Balance.Cmp(request.Amount) < 0 {
+	if user.Balance.Cmp(request.Amount) <= 0 {
 		return withdraw.WithdrawResponseDto{}, errors.New("insufficient balance")
 	}
 
