@@ -35,6 +35,10 @@ func (u *UserController) UpdateUser(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err)
 	}
 
+	if err := c.Validate(req); err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+
 	toUser := userDtoToUser(req.User)
 	err := u.userUsecase.Update(ctx, &toUser)
 	if err != nil {

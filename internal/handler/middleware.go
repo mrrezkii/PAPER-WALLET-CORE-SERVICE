@@ -12,8 +12,8 @@ import (
 func RegisterMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		mandatoryRequest := helper.GetMandatoryRequest(c)
-		err := c.Validate(mandatoryRequest)
-		if err != nil && !isApplySetMandatoryRequest(c.Request().RequestURI) {
+		err := c.Validate(&mandatoryRequest)
+		if err != nil && isApplySetMandatoryRequest(c.Request().RequestURI) {
 			return err
 		}
 
@@ -31,7 +31,7 @@ func setMandatoryRequest(c context.Context, mandatoryRequest dto.MandatoryReques
 }
 
 func isApplySetMandatoryRequest(uri string) bool {
-	if strings.HasPrefix(uri, "swagger") {
+	if strings.HasPrefix(uri, "/swagger") {
 		return false
 	}
 	return true

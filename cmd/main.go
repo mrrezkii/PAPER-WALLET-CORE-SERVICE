@@ -9,6 +9,7 @@ import (
 	"PAPER-WALLET-SERVICE-CORE/internal/repository"
 	user2 "PAPER-WALLET-SERVICE-CORE/internal/usecase/user"
 	wallet2 "PAPER-WALLET-SERVICE-CORE/internal/usecase/wallet"
+	"PAPER-WALLET-SERVICE-CORE/shared"
 	"github.com/labstack/echo/v4"
 	echoSwagger "github.com/swaggo/echo-swagger"
 )
@@ -21,6 +22,7 @@ func main() {
 	walletUsecase := wallet2.NewWalletUsecase(userRepository)
 
 	e := echo.New()
+	e.Validator = shared.NewValidator()
 	e.Use(handler.RegisterMiddleware)
 
 	e.GET("/swagger/*", echoSwagger.WrapHandler)

@@ -35,6 +35,10 @@ func (u *WalletController) Withdraw(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
+	if err := c.Validate(req); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
 	responseDto, err := u.walletUsecase.Withdraw(ctx, req)
 	if err != nil {
 		return err

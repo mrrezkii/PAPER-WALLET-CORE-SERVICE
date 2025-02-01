@@ -35,6 +35,10 @@ func (u *UserController) CreateUser(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err)
 	}
 
+	if err := c.Validate(req); err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+
 	toUser := userDtoToUser(req.User)
 	err := u.userUsecase.Create(ctx, &toUser)
 	if err != nil {

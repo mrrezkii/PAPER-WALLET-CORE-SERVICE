@@ -35,6 +35,10 @@ func (u *UserController) DeleteUser(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err)
 	}
 
+	if err := c.Validate(req); err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+
 	var err error
 	if req.IsHardDelete {
 		err = u.userUsecase.HardDelete(ctx, req.UserID)
