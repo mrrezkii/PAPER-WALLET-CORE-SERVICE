@@ -4,6 +4,7 @@ import (
 	"PAPER-WALLET-SERVICE-CORE/internal/domain"
 	"PAPER-WALLET-SERVICE-CORE/internal/repository"
 	"context"
+	"errors"
 	"github.com/google/uuid"
 )
 
@@ -78,6 +79,10 @@ func (u userUsecase) SoftDelete(ctx context.Context, userID string) error {
 		return err
 	}
 
+	if user == nil {
+		return errors.New("user not found")
+	}
+
 	err = u.repository.SoftDelete(ctx, user)
 	if err != nil {
 		return err
@@ -92,6 +97,10 @@ func (u userUsecase) HardDelete(ctx context.Context, userID string) error {
 	})
 	if err != nil {
 		return err
+	}
+
+	if user == nil {
+		return errors.New("user not found")
 	}
 
 	err = u.repository.HardDelete(ctx, user)
